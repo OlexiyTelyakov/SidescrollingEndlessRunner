@@ -9,19 +9,28 @@ namespace Runner
     /// </summary>
     public class MovementController : RaycastController
     {
+        public bool grounded = false;
+        public bool headCollision = false;
+
         protected override void Start()
         {
             //Calculate RayOrigins.
             base.Start();
         }
 
-        public void CalculateMovement(ref Vector2 velocity)
+        public void CalculateMovement(Vector2 velocity)
         {
+            //Reset collision states.
+            grounded = false;
+            headCollision = false;
+
             UpdateRayOrigins();
 
+            //Check collisions.
             HorizontalCollision(ref velocity);
             VerticalCollisions(ref velocity);
 
+            //Move the character.
             transform.Translate(velocity);
         }
 
@@ -71,6 +80,16 @@ namespace Runner
                     velocity.y = (hit.distance - skinWidth) * moveDir;
                     //Consequent rays can be shorter as base line for collision has been established.
                     rayLength = hit.distance;
+
+                    //When velocity is negative (ie moving down), the character is grounded.
+                    if(moveDir == -1)
+                    {
+                        grounded = true;
+                    }
+                    else
+                    {
+                        headCollision = true;
+                    }
                 }
             }
         }

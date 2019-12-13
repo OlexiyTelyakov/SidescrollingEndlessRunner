@@ -2,17 +2,78 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MovementController : MonoBehaviour
+namespace Runner
 {
-    // Start is called before the first frame update
-    void Start()
+    /// <summary>
+    /// Solves collision and movement for the player.
+    /// </summary>
+    public class MovementController : RaycastController
     {
-        
-    }
+        protected override void Start()
+        {
+            //Calculate RayOrigins.
+            base.Start();
+        }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
+        public void CalculateMovement(ref Vector2 velocity)
+        {
+            UpdateRayOrigins();
+
+            HorizontalCollision(ref velocity);
+            VerticalCollisions(ref velocity);
+
+            transform.Translate(velocity);
+        }
+
+        private void HorizontalCollision(ref Vector2 velocity)
+        {
+            //Horizontal calculation is simpler than vertical due to runners only ever moving to the right, hence no calculation is necessary to adjust for direction.
+
+            float rayLength = velocity.x + skinWidth;
+
+            //Loop through each ray.
+            for(int i = 0;i < horizontalRayCount; i++)
+            {
+                //Visualization assist for use in Editor.
+                Debug.DrawRay(origins.botRight + Vector2.up * i * horizontalRaySpacing, Vector2.right, Color.red);
+
+                RaycastHit2D hit = Physics2D.Raycast(origins.botRight + Vector2.up * i * horizontalRaySpacing, Vector2.right, rayLength, collisionMask) ;
+
+                //If collision is detected:
+                if (hit)
+                {
+                    //Velocity is set to the length of the ray - player cannot warp into a wall since hit distance will be precisely to the wall.
+                    velocity.x = hit.distance - skinWidth;
+                    //Consequent rays can be shorter as base line for collision has been established.
+                    rayLength = hit.distance;
+                }
+            }
+        }
+
+        private void VerticalCollisions(ref Vector2 velocity)
+        {
+            int moveDir = (int)Mathf.Sign(velocity.y);
+            float rayLength = Mathf.Abs(velocity.y) + skinWidth;
+            Vector2 rayOrigin = (moveDir == 1) ? origins.topLeft : origins.botLeft;
+
+            //Loop through each ray.
+            for (int i = 0; i < verticalRayCount; i++)
+            {
+                //Visualization assist for use in Editor.
+                Debug.DrawRay(rayOrigin + Vector2.right * i * verticalRaySpacing, Vector2.up * moveDir, Color.red);
+
+                RaycastHit2D hit = Physics2D.Raycast(rayOrigin + Vector2.right * i * verticalRaySpacing, Vector2.up * moveDir, rayLength, collisionMask);
+
+                //If collision is detected:
+                if (hit)
+                {
+                    //Velocity is set to the length of the ray - player cannot warp into a wall since hit distance will be precisely to the wall.
+                    velocity.y = (hit.distance - skinWidth) * moveDir;
+                    //Consequent rays can be shorter as base line for collision has been established.
+                    rayLength = hit.distance;
+                }
+            }
+        }
     }
 }
+

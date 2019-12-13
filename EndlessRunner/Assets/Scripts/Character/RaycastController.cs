@@ -10,12 +10,14 @@ namespace Runner
     [RequireComponent(typeof(BoxCollider2D))]
     public class RaycastController : MonoBehaviour
     {
+        [SerializeField] protected LayerMask collisionMask;
+
         BoxCollider2D boxCollider;
 
         protected RayOrigins origins;
 
-        [SerializeField] private int horizontalRayCount;
-        [SerializeField] private int verticalRayCount;
+        [SerializeField] protected int horizontalRayCount;
+        [SerializeField] protected int verticalRayCount;
 
         //Determines the amount by which base bounds are reduced to provide better collision detection.
         protected float skinWidth = 0.01f;
@@ -34,7 +36,7 @@ namespace Runner
             CalculateRaySpacing();
         }
 
-        protected void CalculateRaySpacing()
+        private void CalculateRaySpacing()
         {
             //Collider bounds are reduced so the raycast starts inside the entity, rather than on colliders edge which can lead to it firing inside the obstacle and not registering it correctly.
             Bounds bounds = boxCollider.bounds;

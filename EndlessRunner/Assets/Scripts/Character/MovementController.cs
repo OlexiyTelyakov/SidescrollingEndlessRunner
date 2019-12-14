@@ -62,7 +62,7 @@ namespace Runner
         private void VerticalCollisions(ref Vector2 velocity)
         {
             int moveDir = (int)Mathf.Sign(velocity.y);
-            float rayLength = Mathf.Abs(velocity.y) + skinWidth;
+            float rayLength = Mathf.Abs(velocity.y) * 2f + skinWidth;
             Vector2 rayOrigin = (moveDir == 1) ? origins.topLeft : origins.botLeft;
 
             //Loop through each ray.

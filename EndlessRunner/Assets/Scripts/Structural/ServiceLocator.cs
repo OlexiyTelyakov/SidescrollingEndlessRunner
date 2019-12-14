@@ -63,6 +63,24 @@ namespace Runner
                 return gameManager;
             }
         }
+
+        //ObjectPooler locator
+        private static ObjectPooler objectPooler;
+        public static ObjectPooler ObjectPooler
+        {
+            get
+            {
+                if (objectPooler == null)
+                {
+                    objectPooler = FindObjectOfType<ObjectPooler>();
+                    if (objectPooler == null)
+                    {
+                        Debug.LogError("ERROR: ObjectPooler is missing in the scene.");
+                    }
+                }
+                return objectPooler;
+            }
+        }
     }
 }
 

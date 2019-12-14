@@ -43,7 +43,7 @@ namespace Runner
             velocity.y += gravity * Time.deltaTime;
 
             //Check for jumping.
-            if (Input.GetKeyDown(KeyCode.Space) && moveController.grounded)
+            if (Input.GetKey(KeyCode.Space) && moveController.grounded)
             {
                 velocity.y = jumpVelocity;
             }

@@ -11,7 +11,9 @@ namespace Runner
             //Add score.
             ServiceLocator.ScoreKeeper.AddScore(50f);
 
-            //Notify the object pooler to deactivate this object.
+            //Turn this object off.
+            //Items would be pooled and re-used, so it doesn't need to be destroyed.
+            gameObject.SetActive(false);
         }
     }
 }

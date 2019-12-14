@@ -10,7 +10,7 @@ namespace Runner
         protected override void OnTriggerEnter2D(UnityEngine.Collider2D collision)
         {
             //Fail state.
-            print("End Game");
+            ServiceLocator.GameManager.EndGame();
         }
     }
 }

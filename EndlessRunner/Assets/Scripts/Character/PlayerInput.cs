@@ -9,6 +9,7 @@ namespace Runner
     /// </summary>
     public class PlayerInput : MonoBehaviour
     {
+        private GameStateManager stateManager;
         private MovementController moveController;
 
         private Vector2 velocity;
@@ -23,6 +24,8 @@ namespace Runner
 
         private void Start()
         {
+            stateManager = ServiceLocator.GameManager;
+
             moveController = GetComponent<MovementController>();
             //Gravity is solved as a product of jump height and jump time so it can be adjusted easier in editor.
             gravity = -(2 * jumpHeight) / Mathf.Pow(timeToApex, 2);
@@ -32,6 +35,9 @@ namespace Runner
 
         private void Update()
         {
+            //Stop movement during pause.
+            if (stateManager.CurrentState() == GameState.Pause) return;
+
             //Set velocity;
             velocity.x = moveSpeed;
             velocity.y += gravity * Time.deltaTime;

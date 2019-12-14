@@ -16,10 +16,10 @@ namespace Runner
         {
             get
             {
-                if(scoreKeeper == null)
+                if (scoreKeeper == null)
                 {
                     scoreKeeper = FindObjectOfType<Score>();
-                    if(scoreKeeper == null)
+                    if (scoreKeeper == null)
                     {
                         Debug.LogError("ERROR: Score component is missing in the scene.");
                     }
@@ -43,6 +43,24 @@ namespace Runner
                     }
                 }
                 return player;
+            }
+        }
+
+        //GameStateManager locator
+        private static GameStateManager gameManager;
+        public static GameStateManager GameManager
+        {
+            get
+            {
+                if (gameManager == null)
+                {
+                    gameManager = FindObjectOfType<GameStateManager>();
+                    if (gameManager == null)
+                    {
+                        Debug.LogError("ERROR: GameStateManager is missing in the scene.");
+                    }
+                }
+                return gameManager;
             }
         }
     }

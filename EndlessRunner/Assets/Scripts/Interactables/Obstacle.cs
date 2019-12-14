@@ -5,11 +5,12 @@ using UnityEngine;
 namespace Runner
 {
     [RequireComponent(typeof(Rigidbody2D))]
-    public class Obstacle : MonoBehaviour
+    public class Obstacle : Interactable
     {
-        private void OnTriggerEnter2D(Collider2D collision)
+        protected override void OnTriggerEnter2D(UnityEngine.Collider2D collision)
         {
-            print("EndGame");
+            //Fail state.
+            print("End Game");
         }
     }
 }

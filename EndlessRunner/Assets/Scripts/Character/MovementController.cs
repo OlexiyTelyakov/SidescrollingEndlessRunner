@@ -44,7 +44,7 @@ namespace Runner
             for(int i = 0;i < horizontalRayCount; i++)
             {
                 //Visualization assist for use in Editor.
-                Debug.DrawRay(origins.botRight + Vector2.up * i * horizontalRaySpacing, Vector2.right, Color.red);
+                Debug.DrawRay(origins.botRight + Vector2.up * i * horizontalRaySpacing, Vector2.right * rayLength, Color.red);
 
                 RaycastHit2D hit = Physics2D.Raycast(origins.botRight + Vector2.up * i * horizontalRaySpacing, Vector2.right, rayLength, collisionMask) ;
 
@@ -69,7 +69,7 @@ namespace Runner
             for (int i = 0; i < verticalRayCount; i++)
             {
                 //Visualization assist for use in Editor.
-                Debug.DrawRay(rayOrigin + Vector2.right * i * verticalRaySpacing, Vector2.up * moveDir, Color.red);
+                Debug.DrawRay(rayOrigin + Vector2.right * i * verticalRaySpacing, Vector2.up * moveDir * rayLength, Color.red);
 
                 RaycastHit2D hit = Physics2D.Raycast(rayOrigin + Vector2.right * i * verticalRaySpacing, Vector2.up * moveDir, rayLength, collisionMask);
 

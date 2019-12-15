@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Runner
 {
     /// <summary>
-    /// Service locator class that holds references to other game system for data exchange.
+    /// Service locator class that holds references to other game systems for data exchange.
     /// </summary>
     public abstract class ServiceLocator : MonoBehaviour
     {
@@ -97,6 +97,24 @@ namespace Runner
                     }
                 }
                 return levelBuilder;
+            }
+        }
+
+        //Input Manager
+        private static InputManager inputManager;
+        public static InputManager InputManager
+        {
+            get
+            {
+                if (inputManager == null)
+                {
+                    inputManager = FindObjectOfType<InputManager>();
+                    if (inputManager == null)
+                    {
+                        Debug.LogError("ERROR: InputManager is missing in the scene.");
+                    }
+                }
+                return inputManager;
             }
         }
     }

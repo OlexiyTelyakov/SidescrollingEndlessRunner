@@ -8,13 +8,27 @@ namespace Runner
 
     public class GameStateManager : MonoBehaviour
     {
-        private GameState currentState = GameState.Play;
+        [SerializeField] private GameObject restartMenu;
+
+        private GameState currentState = GameState.Pause;
+
+        public void Start()
+        {
+            currentState = GameState.Pause;
+        }
+
+        public void StartGame()
+        {
+            //Set game state to play.
+            currentState = GameState.Play;
+        }
 
         public void EndGame()
         {
             ServiceLocator.ScoreKeeper.UpdateBestScore();
             currentState = GameState.Pause;
-            //End the game with a reset button?
+
+
         }
 
         //Getter for game state for other classes.

@@ -5,9 +5,9 @@ using UnityEngine;
 namespace Runner
 {
     /// <summary>
-    /// Handles player input and character behavior.
+    /// Handles player input processing and character behavior.
     /// </summary>
-    public class PlayerInput : MonoBehaviour
+    public class PlayerInput : InputReceiver
     {
         private GameStateManager stateManager;
         private MovementController moveController;
@@ -26,6 +26,12 @@ namespace Runner
         private float maxJumpVelocity;
         private float minJumpVelocity;
         private float gravity;
+
+        private void Awake()
+        {
+            //Register the input receiver.
+            ServiceLocator.InputManager.AddReceiver(this);
+        }
 
         private void Start()
         {
@@ -81,7 +87,23 @@ namespace Runner
             moveSpeed += boost;
             moveSpeed = Mathf.Clamp(moveSpeed, 0, maxSpeed);
         }
+
+        #region InputOverrides 
+        public override void OnJumpKey()
+        {
+            if (moveController.grounded)
+            {
+                velocity.y = maxJumpVelocity;
+            }
+        }
+
+        public override void OnJumpKeyUp()
+        {
+            if(velocity.y > minJumpVelocity)
+            {
+                velocity.y = minJumpVelocity;
+            }
+        }
+        #endregion
     }
 }
-
-

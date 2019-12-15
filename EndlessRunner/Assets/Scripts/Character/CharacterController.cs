@@ -92,6 +92,9 @@ namespace Runner
         /// </summary>
         public void ResetPlayer()
         {
+            //Reset vertical velocity.
+            velocity.y = 0;
+            //Return player to the starting location.
             transform.position = startPosition.position;
 
             moveSpeed = baseMoveSpeed;

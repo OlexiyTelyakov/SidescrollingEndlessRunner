@@ -79,6 +79,7 @@ namespace Runner
         
         public void ExitGame()
         {
+            ServiceLocator.ScoreKeeper.UpdateBestScore();
             Application.Quit();
         }
 

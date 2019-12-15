@@ -13,6 +13,8 @@ namespace Runner
         private Stack<InputReceiver> receivers = new Stack<InputReceiver>();
         private InputReceiver currentReceiver;
 
+        private bool ignoreInputNextFrame = false;
+
         #region ReceiverRegistration
         /// <summary>
         /// Add a receiver to the stack, routing future input to it.
@@ -24,6 +26,9 @@ namespace Runner
 
             //Update current receiver to the top item.
             currentReceiver = receivers.Peek();
+
+            //Ignore input for a frame after input receiver changes
+            ignoreInputNextFrame = true;
         }
 
         /// <summary>
@@ -37,13 +42,22 @@ namespace Runner
                 receivers.Pop();
                 //Update current receiver to the top item.
                 currentReceiver = receivers.Peek();
-            }
 
+                //Ignore input for a frame after input receiver changes
+                ignoreInputNextFrame = true;
+            }
         }
         #endregion
 
         private void Update()
         {
+            //Skip input check for the frame.
+            if (ignoreInputNextFrame)
+            {
+                ignoreInputNextFrame = false;
+                return;
+            }
+
 #if UNITY_IOS || UNITY_ANDROID
             MobileInput();
 #else
@@ -65,11 +79,11 @@ namespace Runner
 
                 if(t.phase == TouchPhase.Ended)
                 {
-                    currentReceiver.OnJumpKey();
+                    currentReceiver.OnJumpKeyUp();
                 }
                 else
                 {
-                    currentReceiver.OnJumpKeyUp();
+                    currentReceiver.OnJumpKey();
                 }
             }
         }

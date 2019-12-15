@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 namespace Runner
 {
@@ -20,15 +21,8 @@ namespace Runner
 
         void Awake()
         {
-            //Attempt to get best score or create it.
-            if (!PlayerPrefs.HasKey("BestScore"))
-            {
-                PlayerPrefs.SetFloat("BestScore", 0);
-            }
-            else
-            {
-                bestScore = PlayerPrefs.GetFloat("BestScore");
-            }
+            //Try to get previous best score.
+            bestScore = LoadBestScore();
 
             //Reset the score.
             score = 0;
@@ -67,7 +61,7 @@ namespace Runner
             if (bestScore <= score)
             {
                 bestScore = score;
-                PlayerPrefs.SetFloat("BestScore", bestScore);
+                SaveBestScore();
             }
         }
 
@@ -85,7 +79,61 @@ namespace Runner
         public void ResetScore()
         {
             score = 0;
+            UpdateBestScore();
             oldXPos = player.transform.position.x;
         }
+
+        #region JsonScoreKeeping
+        private float LoadBestScore()
+        {
+            //Create return value.
+            float _bestScore = 0;
+            //Get the path to 'save file'.
+            string path = Application.persistentDataPath + "/bestScore.txt";
+
+            if (File.Exists(path))
+            {
+                //Get json data.
+                string data = File.ReadAllText(path);
+                //Deserealize it into an object and get best score.
+                _bestScore = JsonUtility.FromJson<BestScore>(data).bestScore;
+            }
+            //If no prior save file exists.
+            else
+            {
+                //Create the container object.
+                BestScore jsonScore = new BestScore(_bestScore);
+                //Serialize the object to json.
+                string data = JsonUtility.ToJson(jsonScore);
+                //Create the 'save file'.
+                File.WriteAllText(path, data);
+            }
+
+            return _bestScore;
+        }
+
+        private void SaveBestScore()
+        {
+            //Get the path to 'save file'.
+            string path = Application.persistentDataPath + "/bestScore.txt";
+            BestScore jsonScore = new BestScore(bestScore);
+            //Convert bestScore to json.
+            string data = JsonUtility.ToJson(jsonScore);
+
+            //Save the data. WriteAllText creates new file if it cannot find an existing one, so Exists check isn't necessary.
+            File.WriteAllText(path, data);
+        }
+
+        //Object that holds the score value for JSON serialization.
+        private class BestScore
+        {
+            public float bestScore;
+
+            public BestScore(float bestScore)
+            {
+                this.bestScore = bestScore;
+            }
+        }
+        #endregion
     }
 }

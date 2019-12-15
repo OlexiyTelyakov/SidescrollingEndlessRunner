@@ -46,12 +46,13 @@ namespace Runner.UI
              double displayScore = System.Math.Round(score.GetScore(), 1);
              //Update score text.
              scoreAmountText.text = string.Format("{0} m", displayScore);
- 
+
             //Update best score if it has been exceeded.
-                if (displayScore > displayBestScore)
-                {
-                    bestScoreAmountText.text = scoreAmountText.text;
-                }
+            displayBestScore = System.Math.Round(score.GetBestScore(), 1);
+            if (displayScore >= displayBestScore)
+            {
+                bestScoreAmountText.text = scoreAmountText.text;
+            }
         }
 
         private void UpdateBonusScore()

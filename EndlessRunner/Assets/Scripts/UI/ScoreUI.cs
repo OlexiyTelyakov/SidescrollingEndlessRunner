@@ -16,7 +16,7 @@ namespace Runner.UI
         private double displayBestScore;
         [Header("Bonus score display")]
         [SerializeField] private Text bonusScoreText;
-        [SerializeField] private float bonusScoreDuration = 3f;
+        [SerializeField] private float bonusScoreDuration = 1.75f;
         private float bonusScoreTimer;
 
         // Start is called before the first frame update

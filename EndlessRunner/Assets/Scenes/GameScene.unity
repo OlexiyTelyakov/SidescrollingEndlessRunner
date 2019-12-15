@@ -2850,7 +2850,7 @@ MonoBehaviour:
   scoreAmountText: {fileID: 1401394873}
   bestScoreAmountText: {fileID: 1132141535}
   bonusScoreText: {fileID: 1507115348}
-  bonusScoreDuration: 3
+  bonusScoreDuration: 1.75
 --- !u!114 &1655217649
 MonoBehaviour:
   m_ObjectHideFlags: 0

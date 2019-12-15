@@ -6,7 +6,7 @@ namespace Runner
 {
     public class CameraFollow : MonoBehaviour
     {
-        [SerializeField] private PlayerInput target;
+        [SerializeField] private CharacterController target;
         [SerializeField] private float horizontalOffset;
 
         private void LateUpdate()

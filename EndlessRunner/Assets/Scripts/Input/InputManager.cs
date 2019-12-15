@@ -75,6 +75,11 @@ namespace Runner
             {
                 currentReceiver.OnJumpKeyUp();
             }
+
+            if (Input.GetKeyUp(KeyCode.Escape))
+            {
+                currentReceiver.OnExitKeyUp();
+            }
         }
     }
 }

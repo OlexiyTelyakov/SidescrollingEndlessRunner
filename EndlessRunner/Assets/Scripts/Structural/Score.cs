@@ -9,7 +9,7 @@ namespace Runner
     /// </summary>
     public class Score : MonoBehaviour
     {
-        private PlayerInput player;
+        private CharacterController player;
         private float oldXPos;
 
         private float score;

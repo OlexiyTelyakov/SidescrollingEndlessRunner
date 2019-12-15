@@ -11,4 +11,6 @@ public abstract class InputReceiver : MonoBehaviour
     public virtual void OnJumpKey() { }
 
     public virtual void OnJumpKeyUp() { }
+
+    public virtual void OnExitKeyUp() { }
 }

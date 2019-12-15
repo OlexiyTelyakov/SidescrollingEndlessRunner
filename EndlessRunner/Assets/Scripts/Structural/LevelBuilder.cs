@@ -13,7 +13,7 @@ namespace Runner
 
         [SerializeField] private GameObject[] itemPrefabs;
 
-        private PlayerInput player;
+        private CharacterController player;
 
         private Vector3 spawnPos;
 

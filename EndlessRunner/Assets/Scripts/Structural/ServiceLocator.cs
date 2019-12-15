@@ -28,15 +28,15 @@ namespace Runner
             }
         }
 
-        //Player locator.
-        private static PlayerInput player;
-        public static PlayerInput Player
+        //CharacterController locator.
+        private static CharacterController player;
+        public static CharacterController Player
         {
             get
             {
                 if (player == null)
                 {
-                    player = FindObjectOfType<PlayerInput>();
+                    player = FindObjectOfType<CharacterController>();
                     if (player == null)
                     {
                         Debug.LogError("ERROR: Player is missing in the scene.");

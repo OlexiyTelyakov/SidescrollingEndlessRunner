@@ -1,36 +1,68 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Runner.UI;
 
 namespace Runner
 {
-    public enum GameState { Play, Pause }
-
     public class GameStateManager : MonoBehaviour
     {
         [SerializeField] private GameObject restartMenu;
+        [SerializeField] private PauseMenuUI pauseMenu;
 
-        private GameState currentState = GameState.Pause;
+        private enum GameState { Play, Pause }
 
-        public void Start()
+        private GameState currentState;
+        private GameState CurrentState
         {
-            currentState = GameState.Pause;
+            get
+            {
+                return currentState;
+            }
+            set
+            {
+                if(value == GameState.Pause)
+                {
+                    //Disable the pauseMenu button.
+                    pauseMenu.SetPauseButtonActive(false);
+                }
+                else
+                {
+                    //Enable the pauseMenu button.
+                    pauseMenu.SetPauseButtonActive(true);
+                }
+                currentState = value;
+            }
+        }
+
+        private void Start()
+        {
+            CurrentState = GameState.Pause;
         }
 
         public void StartGame()
         {
             //Set game state to play.
-            currentState = GameState.Play;
+            CurrentState = GameState.Play;
+        }
+
+        public void PauseGame()
+        {
+            //Set game state to Pause
+            CurrentState = GameState.Pause;
         }
 
         public void EndGame()
         {
             ServiceLocator.ScoreKeeper.UpdateBestScore();
-            currentState = GameState.Pause;
+            CurrentState = GameState.Pause;
 
             restartMenu.SetActive(true);
         }
 
+        /// <summary>
+        /// Resets the game to its starting point.
+        /// </summary>
         public void RestartGame()
         {
             //Reset various systems to their starting position.
@@ -39,13 +71,24 @@ namespace Runner
             ServiceLocator.ScoreKeeper.ResetScore();
             ServiceLocator.LevelBuilder.ResetLevel();
 
-            currentState = GameState.Play;
+            CurrentState = GameState.Play;
         }
 
-        //Getter for game state for other classes.
-        public GameState CurrentState()
+        public bool IsPaused()
         {
-            return currentState;
+            return (currentState == GameState.Pause) ? true : false;
+        }
+
+        
+        public void ExitGame()
+        {
+            Application.Quit();
+        }
+
+        //Pause the game if application is paused.
+        private void OnApplicationPause(bool pause)
+        {
+            if(pause && currentState != GameState.Pause) pauseMenu.OpenPauseMenu();
         }
     }
 }

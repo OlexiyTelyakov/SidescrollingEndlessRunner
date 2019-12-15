@@ -10,6 +10,10 @@ namespace Runner
         [SerializeField] private GameObject restartMenu;
         [SerializeField] private PauseMenuUI pauseMenu;
 
+        //Game state change event.
+        public delegate void OnStateChange(bool state);
+        public event OnStateChange onStateChange;
+
         private enum GameState { Play, Pause }
 
         private GameState currentState;
@@ -21,16 +25,9 @@ namespace Runner
             }
             set
             {
-                if(value == GameState.Pause)
-                {
-                    //Disable the pauseMenu button.
-                    pauseMenu.SetPauseButtonActive(false);
-                }
-                else
-                {
-                    //Enable the pauseMenu button.
-                    pauseMenu.SetPauseButtonActive(true);
-                }
+                //Notify event subscribers that game state has changed.
+                onStateChange?.Invoke((value == GameState.Play) ? true : false);
+
                 currentState = value;
             }
         }

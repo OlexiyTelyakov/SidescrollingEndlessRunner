@@ -9,7 +9,6 @@ namespace Runner
     /// </summary>
     public class CharacterController : MonoBehaviour
     {
-        private GameStateManager stateManager;
         private MovementController moveController;
 
         private Vector2 velocity;
@@ -29,9 +28,12 @@ namespace Runner
         private float minJumpVelocity;
         private float gravity;
 
+        private bool movementEnabled;
+
         private void Start()
         {
-            stateManager = ServiceLocator.GameManager;
+            //Subscribe to state change event.
+            ServiceLocator.GameManager.onStateChange +=EnableMovement;
 
             moveController = GetComponent<MovementController>();
             //Gravity is solved as a product of jump height and jump time so it can be adjusted easier in editor.
@@ -43,10 +45,11 @@ namespace Runner
             moveSpeed = baseMoveSpeed;
         }
 
+
+
         private void Update()
         {
-            //Stop movement during pause.
-            if (stateManager.IsPaused()) return;
+            if (!movementEnabled) return;
 
             //Set velocity;
             velocity.x = moveSpeed;
@@ -92,6 +95,12 @@ namespace Runner
             transform.position = startPosition.position;
 
             moveSpeed = baseMoveSpeed;
+        }
+
+        //Method that is subscribed to the game state change event and will run when game state changes.
+        private void EnableMovement(bool enable)
+        {
+            movementEnabled = enable;
         }
 
         #region InputMethods

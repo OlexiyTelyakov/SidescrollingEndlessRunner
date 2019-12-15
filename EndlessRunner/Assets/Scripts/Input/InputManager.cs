@@ -1,12 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Android;
+using UnityEngine.UI;
 
 namespace Runner
 {
     public class InputManager : MonoBehaviour
     {
+        //Where should the input manager ignore touch commands.
+        [SerializeField] private RectTransform touchDeadZone;
+
         private Stack<InputReceiver> receivers = new Stack<InputReceiver>();
         private InputReceiver currentReceiver;
 
@@ -52,7 +55,14 @@ namespace Runner
         {
             if(Input.touchCount > 0)
             {
+
                 Touch t = Input.GetTouch(0);
+                //Ignore input from deadzone.
+                if(RectTransformUtility.RectangleContainsScreenPoint(touchDeadZone, t.position))
+                {
+                    return;
+                }
+
                 if(t.phase == TouchPhase.Ended)
                 {
                     currentReceiver.OnJumpKey();

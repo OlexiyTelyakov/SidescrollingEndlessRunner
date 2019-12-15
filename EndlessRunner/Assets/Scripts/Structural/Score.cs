@@ -9,6 +9,9 @@ namespace Runner
     /// </summary>
     public class Score : MonoBehaviour
     {
+        public delegate void ScoreAdded(float score);
+        public event ScoreAdded onScoreAdded;
+
         private CharacterController player;
         private float oldXPos;
 
@@ -71,6 +74,9 @@ namespace Runner
         public void AddScore(float bonus)
         {
             score += bonus;
+
+            //Notify event subscribers that bonus score has been added.
+            onScoreAdded?.Invoke(bonus);
         }
 
         /// <summary>

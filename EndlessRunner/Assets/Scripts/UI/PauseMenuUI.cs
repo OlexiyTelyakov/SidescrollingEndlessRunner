@@ -9,6 +9,12 @@ namespace Runner.UI
         [SerializeField] private GameObject pauseMenuButton;
         [SerializeField] private GameObject pauseMenu;
 
+        private void Start()
+        {
+            //Subscribe to the changeState event list.
+            ServiceLocator.GameManager.onStateChange += SetPauseButtonActive;
+        }
+
         public void OpenPauseMenu()
         {
             //Add this as input receiver.

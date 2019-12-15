@@ -7,12 +7,13 @@ namespace Runner
     public class LevelPrefab : MonoBehaviour
     {
         [SerializeField] private Transform itemSpawnPoint;
-        [SerializeField] private List<GameObject> itemsToSpawn;
 
-        private void OnEnable()
+        public void OnActivate()
         {
-            int rng = Random.Range(0, itemsToSpawn.Count);
-
+            if (itemSpawnPoint == null) return;
+            //Get an interactable
+            GameObject go = ServiceLocator.LevelBuilder.GetItem();
+            go.transform.position = itemSpawnPoint.position;
         }
     }
 }

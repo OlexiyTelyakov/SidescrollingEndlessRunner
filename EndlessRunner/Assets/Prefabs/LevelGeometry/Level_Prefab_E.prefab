@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 2758814016048426898}
   - component: {fileID: 7006141323831038188}
   - component: {fileID: 1815703187991679782}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Killzone
   m_TagString: Untagged
   m_Icon: {fileID: 0}

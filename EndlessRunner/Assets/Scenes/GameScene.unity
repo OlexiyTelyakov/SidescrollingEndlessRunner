@@ -162,6 +162,7 @@ MonoBehaviour:
   - {fileID: 8820337638523125068, guid: 689f7646dd196c247a9a563b9caafedd, type: 3}
   - {fileID: 4054706449390869673, guid: 3c17e71b87d2e0c4ea8d075af4acf1b6, type: 3}
   - {fileID: 9203542562519971202, guid: 991fbd492aeea7c44b92c4011becb85b, type: 3}
+  - {fileID: 8469159724616901461, guid: 29ac19b12b99ed04ab166e378c1dbef1, type: 3}
   instantiateAmount: 3
 --- !u!1 &80745062
 GameObject:
@@ -572,8 +573,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f30d0abea88edc040948bd1092a705d4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveSpeed: 7
-  jumpHeight: 4
+  baseMoveSpeed: 6
+  maxSpeed: 12
+  maxJumpHeight: 5
+  minJumpHeight: 1.5
   timeToApex: 0.5
 --- !u!23 &835544663
 MeshRenderer:
@@ -1521,6 +1524,10 @@ MonoBehaviour:
   - {fileID: 8820337638523125068, guid: 689f7646dd196c247a9a563b9caafedd, type: 3}
   - {fileID: 4054706449390869673, guid: 3c17e71b87d2e0c4ea8d075af4acf1b6, type: 3}
   startPoint: {fileID: 646071534}
+  startingPlatforms: 3
+  itemPrefabs:
+  - {fileID: 8469159724616901461, guid: 29ac19b12b99ed04ab166e378c1dbef1, type: 3}
+  - {fileID: 9203542562519971202, guid: 991fbd492aeea7c44b92c4011becb85b, type: 3}
 --- !u!1001 &87559177158149164
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -81,6 +81,24 @@ namespace Runner
                 return objectPooler;
             }
         }
+
+        //Level builder
+        private static LevelBuilder levelBuilder;
+        public static LevelBuilder LevelBuilder
+        {
+            get
+            {
+                if(levelBuilder == null)
+                {
+                    levelBuilder = FindObjectOfType<LevelBuilder>();
+                    if(levelBuilder == null)
+                    {
+                        Debug.LogError("ERROR: LevelBuilder is missing in the scene.");
+                    }
+                }
+                return levelBuilder;
+            }
+        }
     }
 }
 

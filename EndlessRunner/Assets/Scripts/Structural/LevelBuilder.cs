@@ -6,10 +6,13 @@ namespace Runner
 {
     public class LevelBuilder : MonoBehaviour
     {
-
+        [Header("Level Geometry")]
         [SerializeField] private GameObject[] levelPrefabs;
-
         [SerializeField] private Transform startPoint;
+        [SerializeField] private int startingPlatforms = 3;
+
+        [SerializeField] private GameObject[] itemPrefabs;
+
         private PlayerInput player;
 
         private Vector3 spawnPos;
@@ -23,12 +26,13 @@ namespace Runner
             spawnPos = startPoint.position + new Vector3(10,0,0);
 
             //Generate the first 3 platforms.
-            for(int i = 0; i < 3;i++)
+            for(int i = 0; i < startingPlatforms; i++)
             {
                 AddLevel();
             }
         }
 
+        //Builder method that adds platforms to the runner.
         private void AddLevel()
         {
             //Get name of the object for the ObjectPooler.
@@ -37,6 +41,9 @@ namespace Runner
             //Place the object in the correct position.
             GameObject levelPrefab = ServiceLocator.ObjectPooler.Retrieve(key);
             levelPrefab.transform.position = spawnPos;
+
+            //Activate platform specific logic.
+            levelPrefab.GetComponent<LevelPrefab>().OnActivate();
 
             //Move the new spawn position.
             spawnPos.x += 10f;
@@ -49,6 +56,15 @@ namespace Runner
             {
                 AddLevel();
             }
+        }
+
+        //Returns an interactable from a list of items.
+        public GameObject GetItem()
+        {
+            int rng = Random.Range(0, itemPrefabs.Length);
+            string key = itemPrefabs[rng].name;
+            GameObject item = ServiceLocator.ObjectPooler.Retrieve(key);
+            return item;
         }
     }
 }

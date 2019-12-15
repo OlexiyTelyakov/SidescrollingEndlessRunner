@@ -27,8 +27,6 @@ namespace Runner
                 bestScore = PlayerPrefs.GetFloat("BestScore");
             }
 
-            print(PlayerPrefs.GetFloat("BestScore"));
-
             //Reset the score.
             score = 0;
             //Player is used consistently in this class, so it is cashed into a variable, rather than constantly calling service locator.

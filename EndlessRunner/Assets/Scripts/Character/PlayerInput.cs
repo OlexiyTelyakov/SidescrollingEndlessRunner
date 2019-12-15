@@ -14,12 +14,17 @@ namespace Runner
 
         private Vector2 velocity;
 
-        [SerializeField] private float moveSpeed = 1f;
+        [SerializeField] private float baseMoveSpeed = 1f;
+        [SerializeField] private float maxSpeed = 12f;
+        private float moveSpeed;
+
 
         //Gravity and jump variables.
-        [SerializeField] private float jumpHeight = 5f;
+        [SerializeField] private float maxJumpHeight = 4f;
+        [SerializeField] private float minJumpHeight = 2f;
         [SerializeField] private float timeToApex = 1f;
-        private float jumpVelocity;
+        private float maxJumpVelocity;
+        private float minJumpVelocity;
         private float gravity;
 
         private void Start()
@@ -28,9 +33,12 @@ namespace Runner
 
             moveController = GetComponent<MovementController>();
             //Gravity is solved as a product of jump height and jump time so it can be adjusted easier in editor.
-            gravity = -(2 * jumpHeight) / Mathf.Pow(timeToApex, 2);
+            gravity = -(2 * maxJumpHeight) / Mathf.Pow(timeToApex, 2);
             //Jump velocity is also solved from gravity and timing.
-            jumpVelocity = Mathf.Abs(gravity) * timeToApex;
+            maxJumpVelocity = Mathf.Abs(gravity) * timeToApex;
+            minJumpVelocity = Mathf.Sqrt(2 * Mathf.Abs(gravity) * minJumpHeight);
+
+            moveSpeed = baseMoveSpeed;
         }
 
         private void Update()
@@ -45,7 +53,14 @@ namespace Runner
             //Check for jumping.
             if (Input.GetKey(KeyCode.Space) && moveController.grounded)
             {
-                velocity.y = jumpVelocity;
+                velocity.y = maxJumpVelocity;
+            }
+            if (Input.GetKeyUp(KeyCode.Space))
+            {
+                if(velocity.y > minJumpVelocity)
+                {
+                    velocity.y = minJumpVelocity;
+                }
             }
 
             moveController.CalculateMovement(velocity * Time.deltaTime);
@@ -55,6 +70,16 @@ namespace Runner
             {
                 velocity.y = 0;
             }
+        }
+
+        /// <summary>
+        /// Increases movement speed for this run.
+        /// </summary>
+        /// <param name="boost"></param>
+        public void BoostSpeed(float boost)
+        {
+            moveSpeed += boost;
+            moveSpeed = Mathf.Clamp(moveSpeed, 0, maxSpeed);
         }
     }
 }

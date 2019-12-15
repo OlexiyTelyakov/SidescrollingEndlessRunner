@@ -28,7 +28,18 @@ namespace Runner
             ServiceLocator.ScoreKeeper.UpdateBestScore();
             currentState = GameState.Pause;
 
+            restartMenu.SetActive(true);
+        }
 
+        public void RestartGame()
+        {
+            //Reset various systems to their starting position.
+            ServiceLocator.ObjectPooler.ResetObjectPool();
+            ServiceLocator.Player.ResetPlayer();
+            ServiceLocator.ScoreKeeper.ResetScore();
+            ServiceLocator.LevelBuilder.ResetLevel();
+
+            currentState = GameState.Play;
         }
 
         //Getter for game state for other classes.

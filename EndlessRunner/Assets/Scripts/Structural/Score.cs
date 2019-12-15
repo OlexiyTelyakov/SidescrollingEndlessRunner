@@ -72,5 +72,14 @@ namespace Runner
         {
             score += bonus;
         }
+
+        /// <summary>
+        /// Resets the score calculation for the run.
+        /// </summary>
+        public void ResetScore()
+        {
+            score = 0;
+            oldXPos = player.transform.position.x;
+        }
     }
 }

@@ -14,6 +14,8 @@ namespace Runner
 
         private Vector2 velocity;
 
+        [SerializeField] private Transform startPosition;
+
         [SerializeField] private float baseMoveSpeed = 1f;
         [SerializeField] private float maxSpeed = 12f;
         private float moveSpeed;
@@ -86,6 +88,16 @@ namespace Runner
         {
             moveSpeed += boost;
             moveSpeed = Mathf.Clamp(moveSpeed, 0, maxSpeed);
+        }
+
+        /// <summary>
+        /// Resets player speed and returns them to the start of the game.
+        /// </summary>
+        public void ResetPlayer()
+        {
+            transform.position = startPosition.position;
+
+            moveSpeed = baseMoveSpeed;
         }
 
         #region InputOverrides 

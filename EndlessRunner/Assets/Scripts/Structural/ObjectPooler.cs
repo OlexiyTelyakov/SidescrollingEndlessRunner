@@ -51,5 +51,20 @@ namespace Runner
             }
             return null;
         }
+
+        /// <summary>
+        /// Deactivates all objects handled by the ObjectPooler so they can be completely reused.
+        /// </summary>
+        public void ResetObjectPool()
+        {
+            //Iterate through the dictionary and deactivate all objects.
+            for(int i = 0; i < objectsToPool.Count; i++)
+            {
+                foreach(GameObject go in objectPool[objectsToPool[i].name])
+                {
+                    go.SetActive(false);
+                }
+            }
+        }
     }
 }

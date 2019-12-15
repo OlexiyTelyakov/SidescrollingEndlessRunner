@@ -66,5 +66,19 @@ namespace Runner
             GameObject item = ServiceLocator.ObjectPooler.Retrieve(key);
             return item;
         }
+
+        /// <summary>
+        /// Resets the level so it can be generated from the start.
+        /// </summary>
+        public void ResetLevel()
+        {
+            spawnPos = startPoint.position + new Vector3(10, 0, 0);
+
+            //Generate the first 3 platforms.
+            for (int i = 0; i < startingPlatforms; i++)
+            {
+                AddLevel();
+            }
+        }
     }
 }
